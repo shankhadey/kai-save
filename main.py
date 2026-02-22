@@ -83,8 +83,10 @@ async def ai_save(data: str):
     """AI calls this endpoint via fetch. Returns JSON confirmation."""
     try:
         # Decode base64 → JSON array
-        decoded = base64.urlsafe_b64decode(data + "==").decode()
-        items = json.loads(decoded)
+        # decoded = base64.urlsafe_b64decode(data + "==").decode()
+        padding = 4 - len(data) % 4
+decoded = base64.urlsafe_b64decode(data + "=" * (padding % 4)).decode()
+items = json.loads(decoded)
         
         # Ensure it's a list
         if not isinstance(items, list):
@@ -111,8 +113,9 @@ async def ai_save(data: str):
 async def save(data: str):
     try:
         # Decode base64 → JSON
-        decoded = base64.urlsafe_b64decode(data + "==").decode()  # Pad for safety
-        
+        # decoded = base64.urlsafe_b64decode(data + "==").decode()  # Pad for safety
+        padding = 4 - len(data) % 4
+decoded = base64.urlsafe_b64decode(data + "=" * (padding % 4)).decode()
         # Validate JSON
         record = json.loads(decoded)
         if "id" not in record or "type" not in record:
