@@ -68,6 +68,8 @@ def return_page(title_line: str, subtitle: str = "") -> str:
             window.addEventListener('pagehide', onHide);
 
             function tryOpen() {{
+                // Reset flag - events during cold-start load are stale
+                appOpened = false;
                 var ua = navigator.userAgent || '';
                 var isAndroid = /Android/i.test(ua);
                 var isIOS = /iPhone|iPad|iPod/i.test(ua);
